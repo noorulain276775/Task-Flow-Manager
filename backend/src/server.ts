@@ -1,8 +1,8 @@
 // src/server.ts
 import { createServer } from "http";
-import { AppDataSource } from "./utils/dataSource";
-import app from "./app";
-import { initWebSocket } from "./services/websocket";
+import { AppDataSource } from "./utils/dataSource.js";
+import app from "./app.js";
+import { initWebSocket } from "./services/websocket.js";
 
 const PORT = process.env.PORT || 3000;
 const httpServer = createServer(app);
@@ -13,15 +13,15 @@ initWebSocket(httpServer);
 // Connect to DB & start server
 AppDataSource.initialize()
   .then(() => {
-    console.log("✅ Database connected successfully");
+    console.log("Database connected successfully");
     
     httpServer.listen(PORT, () => {
-      console.log(`🚀 Server running at http://localhost:${PORT}`);
-      console.log(`📊 Health check: http://localhost:${PORT}/health`);
+      console.log(`Server running at http://localhost:${PORT}`);
+      console.log(`Health check: http://localhost:${PORT}/health`);
     });
   })
   .catch((err) => {
-    console.error("❌ Database connection failed:", err);
+    console.error("Database connection failed:", err);
     process.exit(1);
   });
 

@@ -1,216 +1,252 @@
 # Task Flow Manager
 
-A comprehensive task and project management application built with modern web technologies, featuring real-time collaboration, drag-and-drop task management, and robust user authentication.
+A comprehensive task management application built with modern web technologies and **Terraform** infrastructure automation.
 
-## Project Overview
+## Architecture Overview
 
-Task Flow Manager is a full-stack web application designed to streamline project workflows, task management, and team collaboration. The application provides an intuitive interface for managing tasks, projects, and user interactions with real-time updates and notifications.
+This project implements a **microservices architecture** with containerized services, **Terraform** infrastructure provisioning, and real-time communication capabilities.
 
-## Architecture
+### Technology Stack
 
-### Frontend
-- **Framework**: Vue.js 3 with Composition API
-- **Language**: TypeScript
-- **State Management**: Pinia
-- **Routing**: Vue Router 4
-- **Build Tool**: Vite
-- **HTTP Client**: Axios
-- **Real-time Communication**: WebSocket integration
-- **UI Components**: Custom responsive components with drag-and-drop functionality
+#### Backend Services
+- **Node.js 18** with **TypeScript** for type safety
+- **Express.js** framework for RESTful API endpoints
+- **TypeORM** for database operations and migrations
+- **PostgreSQL 15** as the primary database
+- **Redis 7** for caching and session management
+- **Socket.IO** for real-time WebSocket communication
 
-### Backend
-- **Runtime**: Node.js with TypeScript
-- **Web Framework**: Express.js
-- **Database**: PostgreSQL with TypeORM
-- **Authentication**: JWT with bcrypt password hashing
-- **Real-time**: Socket.io for WebSocket connections
-- **Security**: Helmet, CORS, and input validation
-- **Logging**: Morgan for HTTP request logging
+#### Frontend Application
+- **Vue.js 3** with **TypeScript** for reactive UI components
+- **Vue Router** for client-side navigation
+- **Pinia** for state management
+- **Modern CSS** with responsive design principles
 
-## Features
+#### **Terraform Infrastructure & DevOps**
+- **Terraform** for Infrastructure as Code (IaC)
+- **Docker** for containerization and consistent environments
+- **Custom Docker networks** for secure inter-service communication
+- **Automated container orchestration** via Terraform
 
-### Core Functionality
-- **User Management**: Registration, authentication, and role-based access control
-- **Project Management**: Create, update, and organize projects with status tracking
-- **Task Management**: Comprehensive task CRUD operations with priority and status
-- **Real-time Updates**: Live task updates and notifications via WebSocket
-- **Responsive Design**: Mobile-first approach with modern UI/UX
-
-### Advanced Features
-- **Drag & Drop**: Intuitive task status management with Kanban-style boards
-- **Task Filtering**: Filter tasks by project, status, priority, and assignee
-- **Notification System**: Real-time alerts for task updates and project changes
-- **Role-based Access**: Admin, Manager, and User roles with appropriate permissions
-- **API Security**: JWT authentication with secure password handling
-
-## Project Structure
+## System Architecture
 
 ```
-Task-Flow-Manager/
-├── frontend/                 # Vue.js 3 frontend application
-│   ├── src/
-│   │   ├── components/      # Reusable Vue components
-│   │   ├── views/           # Page components
-│   │   ├── store/           # Pinia state management
-│   │   ├── router/          # Vue Router configuration
-│   │   └── services/        # API and WebSocket services
-│   ├── package.json         # Frontend dependencies
-│   └── tsconfig.json        # TypeScript configuration
-├── backend/                  # Node.js backend API
-│   ├── src/
-│   │   ├── controllers/     # Request handlers
-│   │   ├── models/          # TypeORM entity models
-│   │   ├── routes/          # API route definitions
-│   │   ├── services/        # Business logic services
-│   │   └── utils/           # Utility functions and configurations
-│   ├── config/              # Database and AWS configurations
-│   ├── migrations/          # Database migration files
-│   ├── seeders/             # Database seed data
-│   └── package.json         # Backend dependencies
-└── README.md                # Project documentation
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Frontend      │    │    Backend      │    │   Database      │
+│   (Vue.js)     │◄──►│   (Node.js)     │◄──►│  (PostgreSQL)   │
+│   Port: 80      │    │   Port: 3000    │    │   Port: 5432    │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+                                │
+                                ▼
+                       ┌─────────────────┐
+                       │     Redis       │
+                       │   Port: 6379    │
+                       └─────────────────┘
 ```
+
+## **Terraform Infrastructure Components**
+
+### Container Orchestration
+- **Custom Docker Network**: `task-manager-network` for secure inter-container communication
+- **Service Discovery**: Automatic hostname resolution between containers
+- **Port Mapping**: Exposed services accessible from host machine
+- **Resource Isolation**: Each service runs in its own container with defined dependencies
+
+### Database Layer
+- **PostgreSQL 15**: Primary relational database with automatic schema synchronization
+- **TypeORM Integration**: Entity-based data modeling with automatic migrations
+- **Connection Pooling**: Optimized database connections for high performance
+- **Environment-based Configuration**: Development vs production database settings
+
+### Caching & Sessions
+- **Redis 7**: In-memory data store for caching and session management
+- **WebSocket State**: Real-time communication state persistence
+- **Performance Optimization**: Reduced database load through intelligent caching
 
 ## Getting Started
 
 ### Prerequisites
-- Node.js 18+ 
-- PostgreSQL 12+
-- Redis (optional, for caching)
-- npm or yarn package manager
+- **Docker Desktop** (Windows/Mac) or **Docker Engine** (Linux)
+- **Terraform** CLI version 1.0+
+- **Node.js** 18+ (for local development)
+- **Git** for version control
 
-### Frontend Setup
-```bash
-cd frontend
-npm install
-npm run dev
-```
+### **Quick Start with Terraform Infrastructure as Code**
 
-The frontend will be available at `http://localhost:5173`
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd Task-Flow-Manager
+   ```
 
-### Backend Setup
-```bash
-cd backend
-npm install
-npm run dev
-```
+2. **Navigate to infrastructure directory**
+   ```bash
+   cd infra
+   ```
 
-The backend API will be available at `http://localhost:3000`
+3. **Initialize Terraform**
+   ```bash
+   terraform init
+   ```
 
-### Environment Configuration
-Create `.env` files in both frontend and backend directories with appropriate configuration values.
+4. **Deploy the infrastructure**
+   ```bash
+   terraform apply -auto-approve
+   ```
 
-## Development
+5. **Access the application**
+   - **Frontend**: http://localhost:80
+   - **Backend API**: http://localhost:3000
+   - **Database Admin**: http://localhost:5050 (pgAdmin)
+   - **Health Check**: http://localhost:3000/health
 
-### Available Scripts
+### Development Environment
 
-#### Frontend
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
-
-#### Backend
-- `npm run dev` - Start development server with nodemon
-- `npm run build` - Compile TypeScript to JavaScript
-- `npm start` - Start production server
-
-### Code Quality
-- TypeScript for type safety
-- ESLint for code linting
-- Prettier for code formatting
-- Comprehensive error handling
-- Input validation and sanitization
+The application automatically sets up a development environment with:
+- **Hot Reload**: Backend TypeScript compilation on file changes
+- **Live Database**: Automatic schema synchronization
+- **Container Networking**: Seamless service communication
+- **Environment Variables**: Pre-configured for development
 
 ## API Endpoints
 
-### Authentication
-- `POST /api/users/login` - User authentication
+### Core Services
+- `GET /health` - System health check
+- `GET /api/tasks` - Retrieve all tasks
+- `POST /api/tasks` - Create new task
+- `PUT /api/tasks/:id` - Update existing task
+- `DELETE /api/tasks/:id` - Remove task
+
+### Project Management
+- `GET /api/projects` - List all projects
+- `POST /api/projects` - Create new project
+- `PUT /api/projects/:id` - Update project details
+- `DELETE /api/projects/:id` - Remove project
+
+### User Management
+- `GET /api/users` - Retrieve user list
 - `POST /api/users` - User registration
+- `PUT /api/users/:id` - Update user profile
+- `DELETE /api/users/:id` - Deactivate user
 
-### Users
-- `GET /api/users` - Get all users
-- `PUT /api/users/:id` - Update user
-- `DELETE /api/users/:id` - Delete user
+## Real-time Features
 
-### Projects
-- `GET /api/projects` - Get all projects
-- `POST /api/projects` - Create project
-- `PUT /api/projects/:id` - Update project
-- `DELETE /api/projects/:id` - Delete project
-
-### Tasks
-- `GET /api/tasks` - Get all tasks
-- `POST /api/tasks` - Create task
-- `PUT /api/tasks/:id` - Update task
-- `DELETE /api/tasks/:id` - Delete task
+### WebSocket Events
+- **Task Updates**: Real-time task status changes
+- **Project Collaboration**: Live project modifications
+- **User Presence**: Online user status indicators
+- **Notifications**: Instant system alerts
 
 ## Database Schema
 
-### Users
-- UUID primary key
-- Email (unique)
-- Password (hashed)
-- Name
-- Role (admin, manager, user)
-- Avatar URL
-- Active status
-- Timestamps
+### Core Entities
+- **Users**: Authentication, roles, and profile management
+- **Projects**: Project definitions with status tracking
+- **Tasks**: Individual work items with priority and assignment
+- **Relationships**: Foreign key constraints for data integrity
 
-### Projects
-- UUID primary key
-- Name
-- Description
-- Status (active, completed, archived)
-- Start/End dates
-- Owner ID (foreign key to users)
-- Timestamps
-
-### Tasks
-- UUID primary key
-- Title
-- Description
-- Priority (low, medium, high)
-- Status (pending, in-progress, done)
-- Project ID (foreign key to projects)
-- Assigned user ID (foreign key to users)
-- Due date
-- Timestamps
+### Data Types
+- **UUID Primary Keys**: Globally unique identifiers
+- **Enums**: Status and priority constraints
+- **Timestamps**: Automatic creation and update tracking
+- **Soft Deletes**: Data preservation with logical removal
 
 ## Security Features
 
-- JWT-based authentication
-- Password hashing with bcrypt
-- CORS configuration
-- Helmet security headers
-- Input validation and sanitization
-- Role-based access control
-- Secure WebSocket connections
+### Authentication & Authorization
+- **JWT Tokens**: Secure stateless authentication
+- **Role-based Access Control**: Admin, Manager, and User roles
+- **Password Hashing**: Bcrypt encryption for user credentials
+- **CORS Configuration**: Cross-origin request security
 
-## Deployment
+### Infrastructure Security
+- **Container Isolation**: Process and network separation
+- **Custom Networks**: Controlled inter-service communication
+- **Environment Variables**: Secure configuration management
+- **Port Restrictions**: Limited external access points
 
-### Docker Support
-Both frontend and backend include Dockerfile configurations for containerized deployment.
+## Performance Optimization
 
-### Production Considerations
-- Environment variable management
-- Database connection pooling
-- Logging and monitoring
-- Error tracking
-- Performance optimization
-- SSL/TLS configuration
+### Backend Optimizations
+- **TypeScript Compilation**: Pre-compiled JavaScript for production
+- **Database Indexing**: Optimized query performance
+- **Connection Pooling**: Efficient database resource utilization
+- **Caching Strategy**: Redis-based performance enhancement
+
+### Frontend Optimizations
+- **Component Lazy Loading**: On-demand resource loading
+- **State Management**: Efficient data flow with Pinia
+- **Responsive Design**: Mobile-first user experience
+- **Bundle Optimization**: Minimized JavaScript payloads
+
+## Monitoring & Health Checks
+
+### System Monitoring
+- **Health Endpoints**: Real-time service status
+- **Database Connectivity**: Connection pool monitoring
+- **Redis Status**: Cache service availability
+- **Container Health**: Docker container status monitoring
+
+### Logging & Debugging
+- **Structured Logging**: Consistent log format across services
+- **Error Tracking**: Comprehensive error handling and reporting
+- **Development Tools**: Hot reload and debugging capabilities
+- **Performance Metrics**: Response time and throughput monitoring
+
+## **Terraform Deployment & Scaling**
+
+### Container Orchestration
+- **Docker Compose Alternative**: Terraform-based container management
+- **Service Dependencies**: Automatic startup ordering
+- **Resource Allocation**: Configurable container resources
+- **Network Configuration**: Custom Docker networks for security
+
+### Scalability Considerations
+- **Horizontal Scaling**: Multiple container instances
+- **Load Balancing**: Distributed request handling
+- **Database Scaling**: Read replicas and connection pooling
+- **Cache Distribution**: Redis cluster for high availability
+
+## Development Workflow
+
+### Code Quality
+- **TypeScript**: Static type checking and IntelliSense
+- **ESLint**: Code style and quality enforcement
+- **Prettier**: Consistent code formatting
+- **Git Hooks**: Pre-commit code validation
+
+### Testing Strategy
+- **Unit Tests**: Individual component testing
+- **Integration Tests**: Service interaction validation
+- **End-to-End Tests**: Complete user workflow testing
+- **Performance Tests**: Load and stress testing
 
 ## Contributing
 
+### Development Setup
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Add tests if applicable
+4. Run tests and linting
 5. Submit a pull request
+
+### Code Standards
+- **TypeScript**: Strict mode enabled
+- **ESLint**: Airbnb style guide
+- **Prettier**: Consistent formatting
+- **Git**: Conventional commit messages
 
 ## License
 
-This project is licensed under the ISC License.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Support
 
-For questions and support, please refer to the project documentation or create an issue in the repository.
+For technical support or questions:
+- **Issues**: GitHub issue tracker
+- **Documentation**: Inline code documentation
+- **Community**: Developer forums and discussions
+
+---
+
+**Built with modern cloud-native technologies and Terraform infrastructure automation for scalable, maintainable applications.**

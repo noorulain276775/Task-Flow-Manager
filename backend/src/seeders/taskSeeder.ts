@@ -126,11 +126,11 @@ export const seedTasks = async () => {
     ];
 
     const savedTasks = await taskRepository.save(tasks);
-    console.log(`✅ Seeded ${savedTasks.length} tasks successfully`);
+    console.log(`Seeded ${savedTasks.length} tasks successfully`);
     
     return savedTasks;
   } catch (error) {
-    console.error("❌ Error seeding tasks:", error);
+    console.error("Error seeding tasks:", error);
     throw error;
   }
 };

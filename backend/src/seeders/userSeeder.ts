@@ -52,11 +52,11 @@ export const seedUsers = async () => {
     ];
 
     const savedUsers = await userRepository.save(users);
-    console.log(`✅ Seeded ${savedUsers.length} users successfully`);
+    console.log(`Seeded ${savedUsers.length} users successfully`);
     
     return savedUsers;
   } catch (error) {
-    console.error("❌ Error seeding users:", error);
+    console.error("Error seeding users:", error);
     throw error;
   }
 };

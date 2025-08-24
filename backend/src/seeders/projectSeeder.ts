@@ -65,11 +65,11 @@ export const seedProjects = async () => {
     ];
 
     const savedProjects = await projectRepository.save(projects);
-    console.log(`✅ Seeded ${savedProjects.length} projects successfully`);
+    console.log(`Seeded ${savedProjects.length} projects successfully`);
     
     return savedProjects;
   } catch (error) {
-    console.error("❌ Error seeding projects:", error);
+    console.error("Error seeding projects:", error);
     throw error;
   }
 };

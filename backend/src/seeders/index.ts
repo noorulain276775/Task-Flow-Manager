@@ -5,25 +5,25 @@ import { seedTasks } from "./taskSeeder.js";
 
 export const runSeeders = async () => {
   try {
-    console.log("🌱 Starting database seeding...");
+    console.log("Starting database seeding...");
     
     // Initialize database connection
     await AppDataSource.initialize();
-    console.log("✅ Database connected for seeding");
+    console.log("Database connected for seeding");
 
     // Run seeders in order (due to dependencies)
     await seedUsers();
     await seedProjects();
     await seedTasks();
 
-    console.log("🎉 All seeders completed successfully!");
+    console.log("All seeders completed successfully!");
     
     // Close connection
     await AppDataSource.destroy();
-    console.log("🔌 Database connection closed");
+    console.log("Database connection closed");
     
   } catch (error) {
-    console.error("❌ Error running seeders:", error);
+    console.error("Error running seeders:", error);
     process.exit(1);
   }
 };
