@@ -1,0 +1,49 @@
+{
+  "name": "task-manager-backend",
+  "version": "1.0.0",
+  "description": "Backend API for Task Flow Manager",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "tsc && nodemon dist/server.js",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "seed": "tsc && node dist/seeders/index.js",
+    "migration:generate": "typeorm-ts-node-commonjs migration:generate -d src/config/db.ts",
+    "migration:run": "typeorm-ts-node-commonjs migration:run -d src/config/db.ts",
+    "migration:revert": "typeorm-ts-node-commonjs migration:revert -d src/config/db.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@types/redis": "^4.0.10",
+    "@types/socket.io": "^3.0.1",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "helmet": "^7.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "pg": "^8.11.3",
+    "redis": "^4.7.1",
+    "reflect-metadata": "^0.1.13",
+    "sequelize": "^6.32.1",
+    "socket.io": "^4.7.2",
+    "typeorm": "^0.3.26",
+    "ws": "^8.13.0"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.23",
+    "@types/jsonwebtoken": "^9.0.2",
+    "@types/morgan": "^1.9.4",
+    "@types/node": "^20.19.11",
+    "@types/ws": "^8.5.5",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6"
+  }
+}
